@@ -127,3 +127,5 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+.vs/QLDHHOA/v17/.suo
+.vs/QLDHHOA/project-colors.json
