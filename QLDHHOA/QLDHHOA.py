@@ -57,6 +57,7 @@ class gui(QMainWindow):
             if (loginType == "Khách hàng"):
                 self.dkkh = DKKH()
                 self.dkkh.show()
+                self.dkkh.ui.signup_btn.clicked.connect(self.dkkh.createAccount)
             elif(loginType == "Nhân viên"):
                 self.dknv= DKNV()
                 self.dknv.show()
@@ -75,40 +76,40 @@ class gui(QMainWindow):
         try:
             if (role == "Khách hàng"):
                 ### 
-                phone = "0865462805"
-                password = "Corpus Christi8"
+                #phone = "0865462805"
+                #password = "Corpus Christi8"
                 cursor.execute("Select makh from khachhang where dienthoaikh=? and matkhau =?",phone,password)
                 id = cursor.fetchone()[0]
                 self.menuKH()
 
             elif(role == "Quản trị"):
                 ### 
-                phone = "092832141"
-                password = "123456"
+                #phone = "092832141"
+                #password = "123456"
                 cursor.execute("Select manv from nhanvien where dienthoainv=? and matkhau =? and loainv = N'Quản trị'",phone,password)
                 id = cursor.fetchone()[0]
                 
                 self.initialQLSPWidget()
             elif(role=="Nhân viên"):
                 ### 
-                phone = "0855903412     "
-                password = "Colorado8      "
+                #phone = "0855903412     "
+               # password = "Colorado8      "
                 cursor.execute("Select manv from nhanvien where dienthoainv=? and matkhau =? and loainv = N'Thường'",phone,password)
                 id = cursor.fetchone()[0]
                 self.ttnv = TTNV()
                 self.ttnv.show()
             elif(role=="Nhân sự"):
-                ### fast debug hack
-                phone = "092841231      "
-                password = "123456         "
+                ### 
+                #phone = "092841231      "
+                #password = "123456         "
                 cursor.execute("Select manv from nhanvien where dienthoainv=? and matkhau =? and loainv = N'Nhân sự'",phone,password)
                 id = cursor.fetchone()[0]
                 self.ttns = Menu_NS()
                 self.ttns.show()
             elif(role=="Quản lí"):
                 ### fast debug hack
-                phone = "094535241      "
-                password = "123456         "
+                #phone = "094535241      "
+                #password = "123456         "
                 cursor.execute("Select manv from nhanvien where dienthoainv=? and matkhau =? and loainv = N'Quản lí'",phone,password)
                 id = cursor.fetchone()[0]
                 self.initialManagerWidget()
@@ -419,7 +420,7 @@ class DKKH(QWidget):
 
         #button event
         self.ui.cancel_btn.clicked.connect(self.close)
-        self.ui.signup_btn.clicked.connect(self.createAccount)
+        #self.ui.signup_btn.clicked.connect(self.createAccount)
 
     def createAccount(self):
         global cursor
@@ -491,8 +492,9 @@ class Menu_KH(QWidget):
 
         self.info.show()
     
-    def updateInfo():
+    def updateInfo(self):
         global cursor
+        global id
         # get variable from text input
         name = self.info.ui.name_lnedit.text()
         phone = self.info.ui.phone_lnedit.text()
@@ -501,7 +503,8 @@ class Menu_KH(QWidget):
         password = self.info.ui.pass_lnedit.text()
         
         #create query
-        cursor.execute("update khachhang set tenkh=?, dienthoaikh=?, email=?, matkhau=? where makh = '"+self.id+"'",name,phone,address,email,password)
+        cursor.execute("update khachhang set tenkh=?, dienthoaikh=?,diachiKH=?, email=?, matkhau=? where makh = '"+id+"'",name,phone,address,email,password)
+        cursor.commit();
         self.ui.messBox = QMessageBox()
         self.ui.messBox.setWindowTitle("Thông báo")
         self.ui.messBox.setText("Cập nhật khách hàng " + name+" thành công")
