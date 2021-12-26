@@ -231,26 +231,27 @@ class gui(QMainWindow):
 
     #cập nhật sản phẩm
     def updateEntry(self):
-        global cursor
-        curRow = self.qlsp.ui.table.currentRow()
-        self.ui.messBox = QMessageBox()
-        self.ui.messBox.setWindowTitle("Thông báo")
-        # perform delete product on database
-        productID = self.qlsp.ui.table.item(curRow,0).text()
-        productName = self.qlsp.ui.table.item(curRow,1).text()
-        productPrice = self.qlsp.ui.table.item(curRow,2).text()
-        productType = self.qlsp.ui.table.item(curRow,3).text()
-        productWareID = self.qlsp.ui.table.item(curRow,4).text()
-        productTypeID = self.qlsp.ui.table.item(curRow,5).text()
-        cursor.execute("update sanpham set tensp=?,giaban=?,loaisp=?,makho=?,madm=? where masp = ?",productName,productPrice,productType,productWareID,productTypeID,productID)
-        cursor.commit()
-        try:
-            #cursor.execute("delete from sanpham where masp = ?",self.ui.table.item(curRow,0).text())
-            #cursor.commit()
-            self.ui.messBox.setText("Cập nhật sản phẩm mới " +self.qlsp.ui.table.item(curRow,1).text() +" thành công")
-        except:
-            self.ui.messBox.setText("Mã kho không tồn tại hoặc trùng mã sản phẩm")
-        self.ui.messBox.show()
+        if (self.qlsp.ui.CBox.itemText(self.qlsp.ui.CBox.currentIndex()) != "Kho"): 
+            global cursor
+            curRow = self.qlsp.ui.table.currentRow()
+            self.ui.messBox = QMessageBox()
+            self.ui.messBox.setWindowTitle("Thông báo")
+            # perform delete product on database
+            productID = self.qlsp.ui.table.item(curRow,0).text()
+            productName = self.qlsp.ui.table.item(curRow,1).text()
+            productPrice = self.qlsp.ui.table.item(curRow,2).text()
+            productType = self.qlsp.ui.table.item(curRow,3).text()
+            productWareID = self.qlsp.ui.table.item(curRow,4).text()
+            productTypeID = self.qlsp.ui.table.item(curRow,5).text()
+            cursor.execute("update sanpham set tensp=?,giaban=?,loaisp=?,makho=?,madm=? where masp = ?",productName,productPrice,productType,productWareID,productTypeID,productID)
+            cursor.commit()
+            try:
+                #cursor.execute("delete from sanpham where masp = ?",self.ui.table.item(curRow,0).text())
+                #cursor.commit()
+                self.ui.messBox.setText("Cập nhật sản phẩm mới " +self.qlsp.ui.table.item(curRow,1).text() +" thành công")
+            except:
+                self.ui.messBox.setText("Mã kho không tồn tại hoặc trùng mã sản phẩm")
+            self.ui.messBox.show()
     #xoá sản phẩm
     def removeEntry(self):
         global cursor
