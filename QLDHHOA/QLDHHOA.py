@@ -107,7 +107,7 @@ class gui(QMainWindow):
                 self.ttns = Menu_NS()
                 self.ttns.show()
             elif(role=="Quản lí"):
-                ### fast debug hack
+                ###
                 #phone = "094535241      "
                 #password = "123456         "
                 cursor.execute("Select manv from nhanvien where dienthoainv=? and matkhau =? and loainv = N'Quản lí'",phone,password)
@@ -131,7 +131,7 @@ class gui(QMainWindow):
 
     def calculateEvent(self,newDate):
         event= self.ql.ui.comboBox.itemText(self.ql.ui.comboBox.currentIndex())
-        if (event == "Nhân viên tốt"):
+        if (event == "Top 10 Nhân viên tốt"):
             curDate = str(self.ql.ui.dateEdit.date().toPython())
             year = curDate.split('-')[0]
             month = curDate.split('-')[1]
@@ -362,7 +362,7 @@ class gui(QMainWindow):
         self.qlsp.ui.label.setText(str(self.pageNumber))
         if (self.qlsp.ui.CBox.itemText(self.qlsp.ui.CBox.currentIndex()) == "Sản phẩm"):
             # create query to get list of product
-            q = "Select masp, tensp, giaban, loaisp from sanpham where tensp like N'"+self.qlsp.ui.lineEdit.text()+"%'"
+            q = "Select masp, tensp, giaban, loaisp, makho,madm from sanpham where tensp like N'"+self.qlsp.ui.lineEdit.text()+"%'"
             #print(q)
             cursor.execute(q)
         else:
